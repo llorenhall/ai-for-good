@@ -41,6 +41,10 @@ def metrics(zipped_list):
   assert all([isinstance(col, list) for col in zipped_list]), f'zipped_list is not a list of lists. {zipped_list=}.'
   assert all((isinstance(item, (list, tuple)) and len(item) == 2) for item in zipped_list), f'zipped_list is not a list of pairs. {zipped_list=}.'
   assert all(all(isinstance(val, int) and val >= 0 for val in item) for item in zipped_list), f'Each value in the pairs must be a non-negative integer. {zipped_list=}.'
+  for a,b in zipped_list:
+   assert isinstance(a,(int,float)) and isinstance(b,(int,float)), f'zipped_list contains a non-int or non-float pair: {[a,b]}'
+  for a,b in zipped_list:
+   assert float(a) in [0.0,1.0] and float(b) in [0.0,1.0], f'zipped_list contains a non-binary pair: {[a,b]}'
   #body of function below
   #first compute the sum of all 4 cases. See code above
   tn = sum([1 if pair==[0,0] else 0 for pair in zipped_list])
@@ -94,7 +98,7 @@ def run_random_forest(train, test, target, n):
 
 def try_archs(full_table, target, architectures, thresholds):
   #target is target column name
-
+  
   #split full_table
   train_table, test_table = up_train_test_split(full_table, target, .4)
 
